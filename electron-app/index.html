@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Ambilight</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="brand">AMBIENT<span>·</span>LIGHT</div>
+
+  <div class="controls">
+    <div class="row">
+      <div class="field">
+        <label>Monitor</label>
+        <select id="monitor"></select>
+      </div>
+      <div class="field small"><label>Top</label>    <input id="top"    type="number" value="30" min="0" max="500"></div>
+      <div class="field small"><label>Right</label>  <input id="right"  type="number" value="18" min="0" max="500"></div>
+      <div class="field small"><label>Bottom</label> <input id="bottom" type="number" value="30" min="0" max="500"></div>
+      <div class="field small"><label>Left</label>   <input id="left"   type="number" value="18" min="0" max="500"></div>
+      <div class="status">
+        <span id="fps">—</span>
+        <span id="total">—</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label>Start corner</label>
+        <select id="startCorner">
+          <option value="top-left">Top-left</option>
+          <option value="top-right">Top-right</option>
+          <option value="bottom-right">Bottom-right</option>
+          <option value="bottom-left">Bottom-left</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Direction</label>
+        <select id="direction">
+          <option value="cw">Clockwise</option>
+          <option value="ccw">Counter-clockwise</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Thickness <span class="val" id="thicknessVal">6%</span></label>
+        <input id="thickness" type="range" min="1" max="20" value="6">
+      </div>
+
+      <div class="field small"><label>Offset px</label><input id="offset" type="number" value="0" min="0" max="200"></div>
+
+      <div class="field">
+        <label>Corner gap <span class="val" id="cornerGapVal">2%</span></label>
+        <input id="cornerGap" type="range" min="0" max="15" value="2">
+      </div>
+
+      <div class="actions">
+        <button id="start">Start</button>
+        <button id="stop" disabled>Stop</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <canvas id="view"></canvas>
+  <canvas id="strip"></canvas>
+  <div id="tooltip" class="tooltip hidden"></div>
+</main>
+
+<footer>
+  <div id="log"></div>
+</footer>
+
+<script src="renderer.js"></script>
+</body>
+</html>

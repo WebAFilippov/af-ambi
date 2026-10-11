@@ -1,0 +1,11 @@
+{
+  "name": "ambilight",
+  "version": "0.1.0",
+  "main": "main.js",
+  "scripts": {
+    "build:capture": "powershell -NoProfile -ExecutionPolicy Bypass -File ../build.ps1",
+    "start": "npm run build:capture && electron .",
+    "start:only": "electron ."
+  },
+  "devDependencies": { "electron": "^30.0.0" }
+}

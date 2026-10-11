@@ -1,0 +1,25 @@
+# --- C++ / CMake ---
+build/
+out/
+*.obj
+*.exe
+*.pdb
+*.ilk
+
+# --- PlatformIO (ESP32) ---
+.pio/
+src/.vscode/.browse.c_cpp.db*
+src/.vscode/c_cpp_properties.json
+src/.vscode/launch.json
+src/.vscode/ipch/
+
+# --- Node / Electron ---
+node_modules/
+dist/
+*.log
+npm-debug.log*
+yarn-error.log*
+
+# --- OS ---
+Thumbs.db
+desktop.ini
