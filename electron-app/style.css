@@ -81,6 +81,23 @@ button {
 button:hover:not(:disabled) { filter: brightness(1.1); }
 button:disabled { background: var(--panel-2); color: var(--text-dim); cursor: default; }
 button#stop { background: var(--danger); }
+button#stopStrip { background: var(--danger); }
+
+/* -------- WiFi strip controls -------- */
+.strip-row {
+  border-top: 1px dashed var(--border);
+  padding-top: 10px;
+}
+.strip-row .field input[type=text] { min-width: 150px; width: 170px; }
+.strip-row #stripLeds { width: 68px; }
+
+.strip-state {
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 12px; color: var(--text-dim);
+  padding: 6px 0; display: inline-block; min-width: 180px;
+}
+.strip-state.ok   { color: var(--ok); }
+.strip-state.warn { color: #fbbf24; }
 
 .status {
   display: flex; gap: 16px;

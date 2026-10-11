@@ -62,6 +62,32 @@
         <button id="stop" disabled>Stop</button>
       </div>
     </div>
+
+    <div class="row strip-row">
+      <div class="field">
+        <label>Board</label>
+        <select id="board">
+          <option value="">— discover —</option>
+        </select>
+      </div>
+      <div class="field small">
+        <label>LEDs on strip</label>
+        <input id="stripLeds" type="number" value="144" min="1" max="512">
+      </div>
+      <div class="field small">
+        <label>IP / host</label>
+        <input id="boardHost" type="text" value="ambilight.local" placeholder="ambilight.local">
+      </div>
+      <div class="field">
+        <label>Strip</label>
+        <span class="strip-state" id="stripState">offline</span>
+      </div>
+      <div class="actions">
+        <button id="discover" title="Scan the network for boards">Discover</button>
+        <button id="play" disabled>Play</button>
+        <button id="stopStrip" disabled>Stop</button>
+      </div>
+    </div>
   </div>
 </header>
 

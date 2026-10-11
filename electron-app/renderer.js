@@ -426,6 +426,84 @@ window.api.on('frame', f => {
 
 window.api.on('log', msg => log(msg));
 
+// ---------- WiFi strip (board + UDP) ----------
+const stripState = { host: null, streaming: false, online: false };
+
+function setStripUi() {
+  $('stripState').textContent = stripState.streaming
+    ? (stripState.online ? `streaming → ${stripState.host}` : `streaming → ${stripState.host} (no reply)`)
+    : (stripState.host ? `idle · ${stripState.host}` : 'offline');
+  $('stripState').className = 'strip-state ' +
+    (stripState.streaming ? (stripState.online ? 'ok' : 'warn') : '');
+
+  $('play').disabled = stripState.streaming || !stripState.host;
+  $('stopStrip').disabled = !stripState.streaming;
+}
+
+// Boards found by the discovery broadcast.
+window.api.on('ambi', ({ event, data }) => {
+  if (event === 'board') {
+    const sel = $('board');
+    const s = data.status || {};
+    const label = `${data.host} · ${data.ip}${s.leds ? ` · ${s.leds} LEDs` : ''}`;
+    // Replace an existing entry for the same host instead of duplicating.
+    const existing = Array.from(sel.options).find(o => o.value === data.ip);
+    if (existing) {
+      existing.textContent = label;
+    } else {
+      const o = document.createElement('option');
+      o.value = data.ip;
+      o.textContent = label;
+      sel.appendChild(o);
+    }
+    // Adopt the board's LED count when the user has not overridden it.
+    if (s.maxLeds && !$('stripLeds').dataset.touched) {
+      $('stripLeds').value = Math.min(s.maxLeds, 300);
+    }
+    stripState.online = true;
+    setStripUi();
+    log(`[board] ${data.host} at ${data.ip} (fw ${s.fw || '?'})`, 'ok');
+  } else if (event === 'discover-done') {
+    const n = (data.boards || []).length;
+    log(n ? `discovery: ${n} board(s)` : 'discovery: no boards found',
+        n ? 'ok' : 'err');
+  } else if (event === 'status') {
+    stripState.streaming = !!data.streaming;
+    if (data.streaming) stripState.host = data.host;
+    setStripUi();
+    log(data.streaming ? `streaming to ${data.host}:${data.port}` : 'stream stopped',
+        data.streaming ? 'ok' : '');
+  } else if (event === 'error') {
+    log('[strip] ' + data.message, 'err');
+  }
+});
+
+$('discover').onclick = () => {
+  log('discovering boards…');
+  window.api.send({ cmd: 'ambi-discover' });
+};
+
+// Picking a discovered board fills the host field.
+$('board').addEventListener('change', () => {
+  const v = $('board').value;
+  if (v) $('boardHost').value = v;
+});
+
+$('stripLeds').addEventListener('input', () => {
+  $('stripLeds').dataset.touched = '1';
+  window.api.send({ cmd: 'ambi-leds', leds: +$('stripLeds').value | 0 });
+});
+
+$('play').onclick = () => {
+  const host = $('boardHost').value.trim();
+  if (!host) { log('enter or discover a board first', 'err'); return; }
+  stripState.host = host;
+  window.api.send({ cmd: 'ambi-leds', leds: +$('stripLeds').value | 0 });
+  window.api.send({ cmd: 'ambi-start', host, port: 7777 });
+};
+
+$('stopStrip').onclick = () => window.api.send({ cmd: 'ambi-stop' });
+
 // ---------- buttons ----------
 $('start').onclick = () => {
   const p = getParams();
@@ -440,4 +518,5 @@ $('stop').onclick = () => window.api.send({ cmd: 'stop' });
 // ---------- init ----------
 resizeAll();
 recomputeLayout();
+setStripUi();
 requestAnimationFrame(loop);
