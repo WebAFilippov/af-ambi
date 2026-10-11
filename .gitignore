@@ -6,8 +6,11 @@ out/
 *.pdb
 *.ilk
 
-# --- PlatformIO (ESP32) ---
+# --- PlatformIO ---
+# .pio is the per-project build dir; .pio-core is a redirected PlatformIO home
+# holding a copy of the ESP8266 toolchain (~350 MB), never committed.
 .pio/
+.pio-core/
 src/.vscode/.browse.c_cpp.db*
 src/.vscode/c_cpp_properties.json
 src/.vscode/launch.json
@@ -19,6 +22,9 @@ dist/
 *.log
 npm-debug.log*
 yarn-error.log*
+
+# --- ESP8266 OTA artifacts ---
+*.bin
 
 # --- OS ---
 Thumbs.db
