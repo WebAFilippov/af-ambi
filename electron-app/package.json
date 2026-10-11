@@ -5,7 +5,7 @@
   "scripts": {
     "build:capture": "powershell -NoProfile -ExecutionPolicy Bypass -File ../build.ps1",
     "build:ui": "esbuild renderer.js --bundle --outfile=dist/renderer.js --format=iife --target=chrome120",
-    "build:ui:watch": "esbuild renderer.js --bundle --outfile=dist/renderer.js --format=iife --target=chrome120 --watch",
+    "build:ui:watch": "esbuild renderer.js --bundle --outfile=dist/renderer.js --format=iife --target=chrome120",
     "start": "npm run build:capture && electron .",
     "start:only": "electron ."
   },
