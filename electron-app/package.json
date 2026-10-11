@@ -4,8 +4,14 @@
   "main": "main.js",
   "scripts": {
     "build:capture": "powershell -NoProfile -ExecutionPolicy Bypass -File ../build.ps1",
+    "build:ui": "esbuild renderer.js --bundle --outfile=dist/renderer.js --format=iife --target=chrome120",
+    "build:ui:watch": "esbuild renderer.js --bundle --outfile=dist/renderer.js --format=iife --target=chrome120 --watch",
     "start": "npm run build:capture && electron .",
     "start:only": "electron ."
   },
-  "devDependencies": { "electron": "^30.0.0" }
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^30.0.0",
+    "esbuild": "^0.24.0"
+  }
 }
